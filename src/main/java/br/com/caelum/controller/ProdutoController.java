@@ -26,6 +26,7 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoDao produtoDao;
 	
+	//Há uma Entity Manager criada
 	@Transactional
 	@RequestMapping(method=RequestMethod.POST, name="cadastraProduto")
 	public String salvar(@ModelAttribute @Valid Produto produto, BindingResult result, RedirectAttributes atts) {

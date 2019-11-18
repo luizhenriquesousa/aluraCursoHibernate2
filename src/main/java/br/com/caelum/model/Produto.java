@@ -27,6 +27,7 @@ public class Produto {
 	private String linkDaFoto;
 
 	@NotEmpty
+	// @NotEmpty não nulo
 	@Column(columnDefinition = "TEXT")
 	private String descricao;
 

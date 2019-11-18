@@ -41,19 +41,25 @@ public class ProdutoDao {
 	 * @param categoriaId
 	 * @param lojaId
 	 * @return
+	 * @Transaction há um EntityManager ativo
 	 */
 	public List<Produto> getProdutos(String nome, Integer categoriaId, Integer lojaId) {
+		//Session é um forma de criar uma EntityManager no hibernate2
 		CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+		//CriteriaQuery no hibernate2 é equivalente a Criteria
 		CriteriaQuery<Produto> query = criteriaBuilder.createQuery(Produto.class);
 		Root<Produto> root = query.from(Produto.class);
 
 		Path<String> nomePath = root.<String>get("nome");
 		Path<Integer> lojaPath = root.<Loja>get("loja").<Integer>get("id");
+		//SetFetchMode é equivalente a um Join que é criado dentro do meu if da para fazer direto
+		//get sem ponto é do tipo genérico get com ponto é o get comum em ambas funciona
 		Path<Integer> categoriaPath = root.join("categorias").<Integer>get("id");
 
 		List<Predicate> predicates = new ArrayList<>();
 
 		if (!nome.isEmpty()) {
+			//Restrictions é a forma de fazer um Criteria builder no Hibernate2 filtros de busca
 			Predicate nomeIgual = criteriaBuilder.like(nomePath, nome);
 			predicates.add(nomeIgual);
 		}
@@ -107,7 +113,7 @@ public class ProdutoDao {
 		// Fazendo join a partir do produto
 		Path<Integer> lojaIdPath = root.join("categorias").<Integer>get("id");
 
-		// Guardando os predicates, para criar conectivo and e passar predicates para
+		// Guardando os predicates, para criar conectivo and, or, conjuction e disjuction e passar predicates para
 		// cláusula Where
 		List<Predicate> predicates = new ArrayList<>();
 
