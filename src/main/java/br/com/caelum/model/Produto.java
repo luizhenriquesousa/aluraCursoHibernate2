@@ -33,7 +33,7 @@ public class Produto {
 	@Min(20)
 	private double preco;
 
-	// Um produto pode ter várias categorias
+	// O produto pode ter várias categorias, ele fará relacionamento com a classe que foi pedida para ser relacionada com ela
 	@ManyToOne
 	private List<Categoria> categorias = new ArrayList<>();
 
